@@ -22,17 +22,23 @@ jobs:
       matrix:
         os: [macos-latest, ubuntu-latest]
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          path: tap
+      # Installs Homebrew where the runner has none, checks this repository out,
+      # and registers it as a tap. It replaces a checkout step, so there is none.
+      - name: Set up Homebrew
+        id: set-up-homebrew
+        uses: Homebrew/actions/setup-homebrew@1e34f2e2acaa766b7efacb8c26352e6abbb023f9 # 2026.09.13.1
 
-      # Homebrew only recognises a tap under its own Taps directory, so the
-      # checkout is linked into place rather than copied.
-      - name: Register the checkout as a tap
-        run: |
-          taps="$(brew --repository)/Library/Taps/aw-tools"
-          mkdir -p "$taps"
-          ln -s "$GITHUB_WORKSPACE/tap" "$taps/homebrew-tap"
+      - name: Cache the Homebrew bundler gems
+        id: cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ steps.set-up-homebrew.outputs.gems-path }}
+          key: ${{ runner.os }}-rubygems-${{ steps.set-up-homebrew.outputs.gems-hash }}
+          restore-keys: ${{ runner.os }}-rubygems-
+
+      - name: Install the Homebrew bundler gems
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: brew install-bundler-gems
 
       - name: Style
         run: brew style aw-tools/tap
