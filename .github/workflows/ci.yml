@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches: [trunk]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  formula:
+    name: Audit and test on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, ubuntu-latest]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          path: tap
+
+      # Homebrew only recognises a tap under its own Taps directory, so the
+      # checkout is linked into place rather than copied.
+      - name: Register the checkout as a tap
+        run: |
+          taps="$(brew --repository)/Library/Taps/aw-tools"
+          mkdir -p "$taps"
+          ln -s "$GITHUB_WORKSPACE/tap" "$taps/homebrew-tap"
+
+      - name: Style
+        run: brew style aw-tools/tap
+
+      - name: Audit
+        run: brew audit --strict aw-tools/tap/aw-cli
+
+      - name: Install
+        run: brew install --build-from-source aw-tools/tap/aw-cli
+
+      - name: Test
+        run: brew test aw-tools/tap/aw-cli
