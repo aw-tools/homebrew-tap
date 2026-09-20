@@ -40,14 +40,14 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: brew install-bundler-gems
 
-      - name: Style
+      - name: Check the formula style
         run: brew style aw-tools/tap
 
-      - name: Audit
+      - name: Audit the formula
         run: brew audit --strict aw-tools/tap/aw-cli
 
-      - name: Install
+      - name: Install the formula
         run: brew install --build-from-source aw-tools/tap/aw-cli
 
-      - name: Test
+      - name: Test the formula
         run: brew test aw-tools/tap/aw-cli
