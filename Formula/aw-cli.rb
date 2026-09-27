@@ -7,6 +7,9 @@ class AwCli < Formula
   homepage "https://github.com/aw-tools/agentic-workspace"
   license any_of: ["MIT", "Apache-2.0"]
 
+  # `aw bootstrap` hands the cloning of members to garden.
+  depends_on "garden"
+
   on_macos do
     on_arm do
       url "https://github.com/aw-tools/aw-cli/releases/download/v0.2.0/aw-aarch64-apple-darwin.tar.gz"
