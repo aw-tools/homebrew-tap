@@ -12,20 +12,20 @@ class AwCli < Formula
 
   on_macos do
     on_arm do
-      url "https://github.com/aw-tools/aw-cli/releases/download/v0.2.0/aw-aarch64-apple-darwin.tar.gz"
-      sha256 "a309fae1d2e098962e496026e7bddde51f4619b2c345e7bb1771345a1476c5f5"
+      url "https://github.com/aw-tools/aw-cli/releases/download/v0.3.0/aw-aarch64-apple-darwin.tar.gz"
+      sha256 "8a0b0f8dd69a780534a427cf768f6acd0e4927f653d7290208d1b48c3589e0bf"
     end
 
     on_intel do
-      url "https://github.com/aw-tools/aw-cli/releases/download/v0.2.0/aw-x86_64-apple-darwin.tar.gz"
-      sha256 "f3f3049463155065fafba1f4bba8af7103c551d0ff5ac621a390698c3dc2a423"
+      url "https://github.com/aw-tools/aw-cli/releases/download/v0.3.0/aw-x86_64-apple-darwin.tar.gz"
+      sha256 "20ae208a6afd740fdfb0678fee0d42eaf77a77b713b8d01b19f4fe6e32141a42"
     end
   end
 
   on_linux do
     on_intel do
-      url "https://github.com/aw-tools/aw-cli/releases/download/v0.2.0/aw-x86_64-unknown-linux-gnu.tar.gz"
-      sha256 "bc15296482da56c47365568790e3e628e7491cc65376019a5709067ee2536ab7"
+      url "https://github.com/aw-tools/aw-cli/releases/download/v0.3.0/aw-x86_64-unknown-linux-gnu.tar.gz"
+      sha256 "5e5233a7581d226b03153a47434f791d30c11b888bbce0eecc4d81ddcaf817d9"
     end
   end
 
