@@ -1,7 +1,6 @@
 # The release archives carry no version in their names, so Homebrew reads the
 # version from the tag in the download path. Declaring it as well is redundant
-# and `brew audit --strict` rejects it. Linux ships a glibc build here; the musl
-# archive in the same release is not packaged.
+# and `brew audit --strict` rejects it.
 class AwCli < Formula
   desc "Provision and report on reproducible multi-repository agentic workspaces"
   homepage "https://github.com/aw-tools/agentic-workspace"
@@ -23,6 +22,11 @@ class AwCli < Formula
   end
 
   on_linux do
+    on_arm do
+      url "https://github.com/aw-tools/aw-cli/releases/download/v0.5.0/aw-aarch64-unknown-linux-musl.tar.gz"
+      sha256 "6cddd7555a26517728259e0c1d126e58e444ab3383cb38a3b275c418c7565053"
+    end
+
     on_intel do
       url "https://github.com/aw-tools/aw-cli/releases/download/v0.5.0/aw-x86_64-unknown-linux-gnu.tar.gz"
       sha256 "d753c8b02d9e3f708f0b1e51a4a0b346b4441f164bb12a0883cae772662e2288"
